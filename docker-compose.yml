@@ -1,0 +1,13 @@
+db:
+  image: mongo:latest
+  ports: 
+    - "27017:27017"
+app:
+  image: ibmcom/swift-ubuntu
+  ports:
+    - "8080:8080"
+  volumes:
+    - .:/root/SwiftBlocks
+  command: bash -c " apt-get update && apt-get install libssl-dev && cd /root/SwiftBlocks && swift package clean && swift build --configuration release && ./.build/release/SwiftBlocks"
+  links: 
+    - db:localhost
